@@ -1,37 +1,25 @@
 'use strict';
-const movie1 = {
-    title: 'Plan 9 from Outer Space',
-    genre: 'Cult Classic',
-    rating: 2,
-    showtimes: ['3:00pm', '7:00pm', '11:00pm']
-};
+class Movie {
+    constructor(title, genre, rating, showtimes) {
+        this.title = title;
+        this.genre = genre;
+        this.rating = rating;
+        this.showtimes = showtimes;
 
-const movie2 = {
-    title: 'Forbidden Planet',
-    genre: 'Classic Sci-fi',
-    rating: 5,
-    showtimes: ['5:00pm', '9:00pm']
-};
+        this.getNextShowing = function () {
+            let now = new Date().getTime();
 
-const movie3 = {
-    title: 'Buckaroo Banzai',
-    genre: 'Cult Classic',
-    rating: 5,
-    showtimes: ['1:00pm', '5:00pm', '7:00pm', '11:00pm']
-};
+            for (let i = 0; i < this.showtimes.length; i++) {
+                let showtime = getTimeFromString(this.showtimes[i]);
 
-function getNextShowing(movie) {
-    let now = new Date().getTime();
+                if ((showtime - now) > 0) {
+                    return 'Next showing of ' + this.title + ' is ' + this.showtimes[i];
+                }
+            }
 
-    for (let i = 0; i < movie.showtimes.length; i++) {
-        let showtime = getTimeFromString(movie.showtimes[i]);
-
-        if ((showtime - now) > 0) {
-            return 'Next showing of ' + movie.title + ' is ' + movie.showtimes[i];
-        }
+            return null;
+        };
     }
-
-    return null;
 }
 
 function getTimeFromString(str) {
@@ -44,11 +32,27 @@ function getTimeFromString(str) {
     return theTime.getTime();
 }
 
-let nextShowing = getNextShowing(movie1);
-alert(nextShowing);
+const banzaiMovie = new Movie(
+    'Buckaroo Banzai',
+    'Cult Classic',
+    5,
+    ['1:00pm', '5:00pm', '7:00pm', '11:00pm']
+);
 
-nextShowing = getNextShowing(movie2);
-alert(nextShowing);
+const plan9Movie = new Movie(
+    'Plan 9 from Outer Space',
+    'Cult Classic',
+    2,
+    ['3:00pm', '7:00pm', '11:00pm']
+);
 
-nextShowing = getNextShowing(movie3);
-alert(nextShowing);
+const forbiddenPlanetMovie = new Movie(
+    'Forbidden Planet',
+    'Classic Sci-fi',
+    5,
+    ['5:00pm', '9:00pm']
+);
+
+alert(banzaiMovie.getNextShowing());
+alert(plan9Movie.getNextShowing());
+alert(forbiddenPlanetMovie.getNextShowing());
