@@ -5,31 +5,31 @@ class Movie {
         this.genre = genre;
         this.rating = rating;
         this.showtimes = showtimes;
-
-        this.getNextShowing = function () {
-            let now = new Date().getTime();
-
-            for (let i = 0; i < this.showtimes.length; i++) {
-                let showtime = getTimeFromString(this.showtimes[i]);
-
-                if ((showtime - now) > 0) {
-                    return 'Next showing of ' + this.title + ' is ' + this.showtimes[i];
-                }
-            }
-
-            return null;
-        };
     }
-}
 
-function getTimeFromString(str) {
-    let theTime = new Date();
-    let time = str.match(/(\d+)(?::(\d\d))?\s*(p?)/);
+    getNextShowing() {
+        let now = new Date().getTime();
 
-    theTime.setHours(parseInt(time[1]) + (time[3] ? 12 : 0));
-    theTime.setMinutes(parseInt(time[2]) || 0);
+        for (let i = 0; i < this.showtimes.length; i++) {
+            let showtime = Movie.getTimeFromString(this.showtimes[i]);
 
-    return theTime.getTime();
+            if ((showtime - now) > 0) {
+                return 'Next showing of ' + this.title + ' is ' + this.showtimes[i];
+            }
+        }
+
+        return null;
+    }
+
+    static getTimeFromString(str) {
+        let theTime = new Date();
+        let time = str.match(/(\d+)(?::(\d\d))?\s*(p?)/);
+
+        theTime.setHours(parseInt(time[1]) + (time[3] ? 12 : 0));
+        theTime.setMinutes(parseInt(time[2]) || 0);
+
+        return theTime.getTime();
+    }
 }
 
 const banzaiMovie = new Movie(
